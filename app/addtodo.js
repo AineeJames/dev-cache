@@ -1,14 +1,21 @@
 import { Text, View, ScrollView, TextInput, StyleSheet, TouchableWithoutFeedback } from "react-native"
 import { useFonts, SourceCodePro_600SemiBold, SourceCodePro_400Regular_Italic, SourceCodePro_800ExtraBold, SourceCodePro_400Regular } from '@expo-google-fonts/source-code-pro';
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { colors } from "../constants/colors";
 import { NotePreview } from '../components/NotePreview';
 import {Keyboard} from 'react-native'
+import { ActionButton } from "../components/ActionButton";
+import { TodosContext } from "../context/TodosContext";
+import * as Crypto from 'expo-crypto';
+import { router } from "expo-router";
+
 
 export default function AddTodo() {
 
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
+
+    const { addNote } = useContext(TodosContext);
 
     let [fontsLoaded, fontError] = useFonts({
         SourceCodePro_600SemiBold,
@@ -49,6 +56,13 @@ export default function AddTodo() {
                     autoCapitalize="none"
                 />
             </View>
+            <ActionButton 
+                text="Add New Note"
+                action={() => {
+                    addNote({ title: title, description: content, id: Crypto.randomUUID() })
+                    router.push("/home");
+                }}
+            />
             <Text style={styles.heading}>Preview</Text>
             <View style={{ backgroundColor: colors.fg, height: 5, marginBottom: 20 }}></View>
             <NotePreview

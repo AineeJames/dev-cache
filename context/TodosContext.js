@@ -20,10 +20,15 @@ const defaultTodos = [
 const TodosContext = createContext(defaultTodos);
 
 const TodosProvider = ({ children }) => {
+
     const [todos, setTodos] = useState(defaultTodos)
 
+    const addNote = (note) => {
+        setTodos([...todos, note])
+    }
+
     return (
-        <TodosContext.Provider value={{ todos }}>
+        <TodosContext.Provider value={{ todos, addNote }}>
             {children}
         </TodosContext.Provider>
     );
