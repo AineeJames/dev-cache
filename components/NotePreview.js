@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import SyntaxHighlighter from 'react-native-syntax-highlighter';
 import { gruvboxDark, gruvboxLight } from 'react-syntax-highlighter/styles/hljs';
 import { useFonts, SourceCodePro_600SemiBold, SourceCodePro_400Regular_Italic, SourceCodePro_800ExtraBold, SourceCodePro_400Regular } from '@expo-google-fonts/source-code-pro';
-import Animated, { FadeInDown as Effect, FadeInLeft, FadeInRight } from 'react-native-reanimated';
+import Animated, { FadeInDown as Effect, FadeInLeft } from 'react-native-reanimated';
 import parseMarkdown from '../app/helper/parseMarkdown';
 import { useContext } from 'react';
 import { TodosContext } from '../context/TodosContext';
@@ -68,7 +68,7 @@ const NotePreview = ({ title, content, color }) => {
                         <SyntaxHighlighter
                         fontFamily={"SourceCodePro_400Regular"}
                         fontSize={12}
-                        style={isDarkMode === false ? gruvboxDark : gruvboxLight}
+                        style={isDarkMode === true ? gruvboxDark : gruvboxLight}
                         language={a.language}
                         >{a.content}</SyntaxHighlighter>
                     </View>

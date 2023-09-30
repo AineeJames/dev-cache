@@ -1,9 +1,8 @@
-import { Text, Image, StyleSheet, View, useColorScheme } from 'react-native';
-import * as SplashScreen from 'expo-splash-screen';
+import { Image, StyleSheet, View } from 'react-native';
 import { useFonts, SourceCodePro_600SemiBold, SourceCodePro_400Regular_Italic } from '@expo-google-fonts/source-code-pro';
 import TypeWriter from 'react-native-typewriter';
 import { ActionButton } from "../components/ActionButton.js";
-import Animated, { FadeIn, BounceIn, FadeOut, useSharedValue, useAnimatedStyle, withSpring, withRepeat, withTiming, interpolate } from 'react-native-reanimated';
+import Animated, { FadeIn, BounceIn, useSharedValue, useAnimatedStyle, withRepeat, withTiming, interpolate } from 'react-native-reanimated';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useContext, useEffect } from 'react';

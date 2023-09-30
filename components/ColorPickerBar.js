@@ -1,13 +1,21 @@
-import { StyleSheet, Text, Touchable, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { TodosContext } from '../context/TodosContext'
 
-const ColorPickerBar = ({ colorOptions, onChange, defaultColor }) => {
+const ColorPickerBar = ({ colorOptions, onChange, defaultColor, enforced }) => {
 
     const { colors } = useContext(TodosContext);
 
-    const [selection, setSelection] = useState(defaultColor || null)
+    let startingSelectionColor = "";
+    if (defaultColor === "random") {
+        startingSelectionColor = colorOptions[Math.floor(Math.random() * colorOptions.length)]
+    } else if (defaultColor !== null) {
+        startingSelectionColor = defaultColor
+    } else {
+        startingSelectionColor = null
+    }
+    const [selection, setSelection] = useState(startingSelectionColor || null)
 
     useEffect(() => {
         onChange(selection)
@@ -33,7 +41,7 @@ const ColorPickerBar = ({ colorOptions, onChange, defaultColor }) => {
                     <TouchableOpacity key={idx} onPress={() => {
                         if (color !== selection) {
                             setSelection(color)
-                        } else if (color === selection) {
+                        } else if (!enforced && color === selection) {
                             setSelection(null)
                         }
                     }}>

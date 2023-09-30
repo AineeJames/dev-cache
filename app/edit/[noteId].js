@@ -1,7 +1,6 @@
 import {
   Text,
   View,
-  ScrollView,
   TextInput,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -137,7 +136,7 @@ export default function AddTodo() {
           />
         </View>
         <Text style={styles.inputLabel}>Color:</Text>
-        <ColorPickerBar colorOptions={colors.titleBackgrounds} onChange={(color) => setColor(color)} defaultColor={noteId === "new" ? "#F8F8F8" : color}/>
+        <ColorPickerBar colorOptions={colors.titleBackgrounds} onChange={(color) => setColor(color)} defaultColor={noteId === "new" ? "random" : color} enforced/>
         <View style={{ marginBottom: 20 }}>
           <Text style={[styles.inputLabel, { marginBottom: 5 }]}>Content:</Text>
           <View style={styles.helperButtonList}>
@@ -174,7 +173,7 @@ export default function AddTodo() {
                 title: title || "Empty Title",
                 description: content || "empty descrition...",
                 id: Crypto.randomUUID(),
-                color: color || "#F8F8F8",
+                color: color,
                 timestamp: getCurrentTimestamp()
               });
             } else {
@@ -182,7 +181,7 @@ export default function AddTodo() {
                 title: title || "Empty Title",
                 description: content || "empty descrition...",
                 id: noteId,
-                color: color || "#F8F8F8",
+                color: color,
                 timestamp: getCurrentTimestamp()
               })
             }

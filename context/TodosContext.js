@@ -6,35 +6,14 @@ import getCurrentTimestamp from "../app/helper/getTimestamp";
 
 const defaultTodos = [
     {
-        title: "Example Note",
-        description: `# Introduction
-This is an example note to show the capabilities of Dev Cache!
-
-# Headings
-- use "# <heading>"
-
-# Code Blocks
-- use \`\`\`code\`\`\`
-\`\`\`
-# Here is some python code
-
-for i in range(10):
-    print("Hello, World!)
-\`\`\`
-
-# Lists
-- use "- <text>"
-
-Example:
-- List item one
-- List item two
-- ...
-`,
-        id: Crypto.randomUUID(),
-        color: colors.light.titleBackgrounds[0],
-        timestamp: getCurrentTimestamp()
+      title: "Example Note",
+      description: `# Introduction\nThis is an example note to show the capabilities of Dev Cache!\n\n# Headings\n- use "# <heading>"\n\n# Code Blocks\n- use \`\`\`code\`\`\`\n\`\`\`\n# Here is some python code\n\nfor i in range(10):\n    print("Hello, World!)\n\`\`\`\n\n# Lists\n- use "- <text>"\n\nExample:\n- List item one\n- List item two\n- ...`,
+      id: Crypto.randomUUID(),
+      color: colors.light.titleBackgrounds[0],
+      timestamp: getCurrentTimestamp(),
+      isExample: true // Add a flag for the example note
     }
-]
+];  
 
 const TodosContext = createContext(defaultTodos);
 
@@ -58,15 +37,33 @@ const storeData = async (key, value) => {
 
 const TodosProvider = ({ children }) => {
 
+    const [todos, setTodos] = useState(defaultTodos)
+
     const loadNotes = async () => {
-        setTodos(await getData("notes"))
-    }
+        try {
+          const loadedNotes = await getData("notes");
+          if (loadedNotes !== null) {
+            setTodos(loadedNotes);
+          } else {
+            // Check if it's the user's first time and add the example note
+            const isFirstTime = await AsyncStorage.getItem("isFirstTime");
+            if (isFirstTime === null) {
+              await AsyncStorage.setItem("isFirstTime", "false");
+              setTodos([...defaultTodos, ...loadedNotes]);
+            } else {
+              setTodos(loadedNotes);
+            }
+          }
+        } catch (error) {
+          console.error('Error loading notes:', error);
+        }
+    };
+      
 
     useEffect(() => {
         loadNotes()
+        setTodos(todos.filter(todo => todo !== null))
     }, [])
-
-    const [todos, setTodos] = useState(defaultTodos)
 
     const storeNotes = async () => {
         await storeData("notes", todos);
@@ -96,7 +93,7 @@ const TodosProvider = ({ children }) => {
         setTodos([...removedIdNotes, newNote])
     }
 
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(true);
 
     return (
         <TodosContext.Provider value={{ todos, addNote, removeNote, updateNote, setIsDarkMode, isDarkMode, colors: isDarkMode ? colors.dark : colors.light }}>

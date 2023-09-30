@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View, Alert } from 'react-native'
-import React, { useCallback, useContext } from 'react'
+import { StyleSheet, View, Alert } from 'react-native'
+import React, { useContext } from 'react'
 import { router, useLocalSearchParams } from 'expo-router'
 import { NotePreview } from '../../components/NotePreview'
-import { TodosContext, TodosProvider } from '../../context/TodosContext'
+import { TodosContext } from '../../context/TodosContext'
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';

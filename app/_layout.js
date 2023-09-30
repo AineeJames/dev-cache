@@ -1,7 +1,6 @@
 import { Slot } from 'expo-router';
 import { TodosContext, TodosProvider } from '../context/TodosContext';
-import { View, Text } from 'react-native';
-import { colors } from '../constants/colors';
+import { View } from 'react-native';
 import { useContext } from 'react';
 import { ToggleStyle } from '../components/ToggleStyle'
 

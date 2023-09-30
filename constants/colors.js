@@ -1,7 +1,7 @@
 const colors = {
     dark: {
         bg: "#1d2021",
-        mg: "#282828",
+        mg: "#3c3836",
         fg: "#ebdbb2",
         purple: "#c476bf",
         blue: "#4158D0",
@@ -13,7 +13,6 @@ const colors = {
             "#b8bb26",
             "#83a598",
             "#d3869b",
-            "#ebdbb2",
         ],
         darkmode: true
     },
@@ -31,7 +30,6 @@ const colors = {
             "#b8bb26",
             "#83a598",
             "#d3869b",
-            "#282828",
         ],
         darkmode: false
     }

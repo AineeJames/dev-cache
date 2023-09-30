@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { TodosContext } from "../context/TodosContext";
-import { View, TouchableOpacity, Text, Dimensions } from 'react-native'
+import { View, TouchableOpacity, Dimensions } from 'react-native'
 import { Feather } from '@expo/vector-icons';
 
 const screenWidth = Dimensions.get('window').width;

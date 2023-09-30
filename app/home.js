@@ -1,7 +1,7 @@
 import { View, ScrollView, StyleSheet, Text } from "react-native";
 import { router } from 'expo-router';
 import { TodosContext } from "../context/TodosContext.js";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useFonts, SourceCodePro_600SemiBold, SourceCodePro_400Regular_Italic, SourceCodePro_800ExtraBold } from '@expo-google-fonts/source-code-pro';
 import { TodoEntry } from '../components/TodoEntry.js';
 import { TodoAddButton } from "../components/TodoAddButton.js";
@@ -15,12 +15,15 @@ export default function Home() {
     const { todos, colors } = useContext(TodosContext);
 
     const uniqueColors = [];
-    todos.forEach(todo => {
-        const color = todo.color;
-        if (!uniqueColors.includes(color)) {
-            uniqueColors.push(color);
-        }
-    });
+
+    if (todos) {
+        todos.forEach(todo => {
+            const color = todo.color;
+            if (!uniqueColors.includes(color)) {
+                uniqueColors.push(color);
+            }
+        });
+    }
 
     let [fontsLoaded, fontError] = useFonts({
         SourceCodePro_600SemiBold,

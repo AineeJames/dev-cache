@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useFonts, SourceCodePro_700Bold } from '@expo-google-fonts/source-code-pro';
 import Animated from "react-native-reanimated";
