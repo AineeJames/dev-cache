@@ -1,6 +1,11 @@
 # Dev Cache - a simple note taking app for developers
 
-i
+<img src="./pictures/home_screen.png" height="400"/>
+<img src="./pictures/note_list.png" height="400"/>
+<img src="./pictures/note_preview.png" height="400"/>
+
+<img src="./pictures/add_note_dark.png" height="400"/>
+<img src="./pictures/add_note_light.png" height="400"/>
 
 ## Capabilities:
 - Write notes in Markdown (w/ a live preview)
