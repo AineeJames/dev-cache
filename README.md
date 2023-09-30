@@ -1,13 +1,14 @@
 # Dev Cache - a simple note taking app for developers
 
-<div style=" flex: 1; flex-direction: 'row'; justify-content: 'space-between'; ">
+<div style="flex-direction: 'row'">
 <img src="./pictures/home_screen.png" height="400"/>
 <img src="./pictures/note_list.png" height="400"/>
 <img src="./pictures/note_preview.png" height="400"/>
-<div>
 
+<div style="flex-direction: 'row'">
 <img src="./pictures/add_note_dark.png" height="400"/>
 <img src="./pictures/add_note_light.png" height="400"/>
+<div>
 
 ## Capabilities:
 - Write notes in Markdown (w/ a live preview)
