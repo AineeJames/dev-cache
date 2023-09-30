@@ -1,6 +1,6 @@
 # Dev Cache - a simple note taking app for developers
 
-<div style=" flex-direction: 'row' ">
+<div style=" flex-direction: 'row'; justify-content: 'space-between'; ">
 <img src="./pictures/home_screen.png" height="400"/>
 <img src="./pictures/note_list.png" height="400"/>
 <img src="./pictures/note_preview.png" height="400"/>
