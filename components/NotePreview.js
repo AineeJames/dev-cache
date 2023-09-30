@@ -1,46 +1,15 @@
 import { View, Text, StyleSheet } from 'react-native'
 import SyntaxHighlighter from 'react-native-syntax-highlighter';
-import { gruvboxDark } from 'react-syntax-highlighter/styles/hljs';
+import { gruvboxDark, gruvboxLight } from 'react-syntax-highlighter/styles/hljs';
 import { useFonts, SourceCodePro_600SemiBold, SourceCodePro_400Regular_Italic, SourceCodePro_800ExtraBold, SourceCodePro_400Regular } from '@expo-google-fonts/source-code-pro';
-import { colors } from '../constants/colors';
-import { useEffect, useState } from 'react';
+import Animated, { FadeInDown as Effect, FadeInLeft, FadeInRight } from 'react-native-reanimated';
+import parseMarkdown from '../app/helper/parseMarkdown';
+import { useContext } from 'react';
+import { TodosContext } from '../context/TodosContext';
 
-const NotePreview = ({ title, content }) => {
+const NotePreview = ({ title, content, color }) => {
 
-    function parseMarkdown(text) {
-        const lines = text.split('\n');
-        const parsedComponents = [];
-      
-        let inCodeBlock = false;
-        let codeBlock = '';
-      
-        for (const line of lines) {
-          if (line.trim().startsWith('```')) {
-            if (inCodeBlock) {
-              parsedComponents.push({ type: 'code', content: codeBlock });
-              codeBlock = '';
-            }
-            inCodeBlock = !inCodeBlock;
-          } else if (line.trim().startsWith('# ')) {
-            parsedComponents.push({ type: 'heading', content: line.substring(2) });
-          } else {
-            if (inCodeBlock) {
-              codeBlock += line + '\n';
-            } else {
-              parsedComponents.push({ type: 'text', content: line });
-            }
-          }
-        }
-      
-        // Check for any remaining code block
-        if (inCodeBlock && codeBlock.length > 0) {
-          parsedComponents.push({ type: 'code', content: codeBlock });
-        }
-      
-        return parsedComponents;
-      }      
-
-    const [valid, setValid] = useState(true);
+    const { colors, isDarkMode } = useContext(TodosContext)
 
     let [fontsLoaded, fontError] = useFonts({
         SourceCodePro_600SemiBold,
@@ -53,57 +22,74 @@ const NotePreview = ({ title, content }) => {
         return null;
     }
 
+    const styles = StyleSheet.create({
+        heading: {
+            fontFamily: "SourceCodePro_600SemiBold",
+            fontSize: 25,
+            color: colors.fg,
+            marginBottom: 5,
+            textDecorationLine: "underline"
+        },
+        text: {
+            fontFamily: "SourceCodePro_400Regular",
+            color: colors.fg,
+            fontSize: 18,
+            marginBottom: 5,
+        },
+        bullet: {
+            fontFamily: "SourceCodePro_400Regular",
+            color: colors.fg,
+            fontSize: 18,
+            marginBottom: 5,
+        }
+    })
+
     let renderedJSX = [];
-    parseMarkdown(content).forEach((a => {
+    parseMarkdown(content).forEach(((a, i) => {
         if (a.type === "text") {
             renderedJSX.push(
-                <Text style={styles.text}>{a.content}</Text>
+                <Animated.Text entering={Effect.delay(500 + (100 * i))} key={i} style={styles.text}>{a.content}</Animated.Text>
             )
         } else if (a.type === "heading") {
             renderedJSX.push(
-                <Text style={styles.heading}>{a.content}</Text>
+                <Animated.Text entering={Effect.delay(500 + (100 * i))} key={i} style={styles.heading}>{a.content}</Animated.Text>
+            )
+        } else if (a.type === "bullet") {
+            renderedJSX.push(
+                <Animated.Text entering={Effect.delay(500 + (100 * i))} key={i} style={styles.bullet}>  • {a.content}</Animated.Text>
             )
         } else if (a.type === "code") {
             renderedJSX.push(
-                <View style={{ borderRadius: 5, overflow: "hidden", marginBottom: 5, marginHorizontal: 10}}>
-                    <SyntaxHighlighter
-                    fontFamily={"SourceCodePro_400Regular"}
-                    fontSize={12}
-                    style={gruvboxDark}
-                    >{a.content}</SyntaxHighlighter>
-                </View>
+                <Animated.View entering={Effect.delay(500 + (100 * i))} key={i} >
+                    <View style={{ backgroundColor: colors.fg, paddingLeft: 5, paddingVertical: 3, borderTopLeftRadius: 5, borderTopRightRadius: 5 }}>
+                        <Text style={{ color: colors.bg, fontFamily: "SourceCodePro_400Regular_Italic" }}>{a.language}</Text>
+                    </View>
+                    <View style={{  borderBottomLeftRadius: 5, borderBottomRightRadius: 5, overflow: "hidden", marginBottom: 5, marginHorizontal: 0}}>
+                        <SyntaxHighlighter
+                        fontFamily={"SourceCodePro_400Regular"}
+                        fontSize={12}
+                        style={isDarkMode === false ? gruvboxDark : gruvboxLight}
+                        language={a.language}
+                        >{a.content}</SyntaxHighlighter>
+                    </View>
+                </Animated.View>
             )
         }
     }))
 
     return (
-        <View>
-            <View style={{ backgroundColor: "#333" }}>
-                <View style={{ backgroundColor: colors.fg, justifyContent: "center", padding: 5, marginBottom: 10}}>
-                        <Text style={{ fontFamily: "SourceCodePro_600SemiBold", fontSize: 30 }}>{title}</Text>
+        <Animated.View entering={FadeInLeft.duration(1000)} style={{ paddingBottom: 100 }}>
+            <View style={{ backgroundColor: colors.mg, borderTopRightRadius: 10 }}>
+                <View style={{ backgroundColor: color, justifyContent: "center", padding: 5, marginBottom: 10, borderTopRightRadius: 10}}>
+                        <Text style={{ fontFamily: "SourceCodePro_600SemiBold", fontSize: 30, color: colors.bg }}>{title}</Text>
                 </View>
-                <View style={{ paddingHorizontal: 10 }}>
+                <View style={{ paddingHorizontal: 10, paddingBottom: 10 }}>
                     {renderedJSX}
                 </View>
+                <View style={{ backgroundColor: colors.fg, height: 5, width: "90%" }}></View>
             </View>
-        </View>
+        </Animated.View>
     );
 }
-
-const styles = StyleSheet.create({
-    heading: {
-        fontFamily: "SourceCodePro_600SemiBold",
-
-        fontSize: 25,
-        color: colors.fg,
-        marginBottom: 5,
-    },
-    text: {
-        fontFamily: "SourceCodePro_400Regular",
-        color: colors.fg,
-        fontSize: 18,
-        marginBottom: 5,
-    }
-})
 
 export { NotePreview }

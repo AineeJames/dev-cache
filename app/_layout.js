@@ -1,14 +1,25 @@
 import { Slot } from 'expo-router';
-import { TodosProvider } from '../context/TodosContext';
-import { View } from 'react-native';
+import { TodosContext, TodosProvider } from '../context/TodosContext';
+import { View, Text } from 'react-native';
 import { colors } from '../constants/colors';
+import { useContext } from 'react';
+import { ToggleStyle } from '../components/ToggleStyle'
 
-export default function HomeLayout() {
+const SlotWrapper = () => {
+  const { colors } = useContext(TodosContext)
   return (
     <View style={{ width: "100%", height: "100%", backgroundColor: colors.bg}}>
-    <TodosProvider>
-        <Slot />
-    </TodosProvider>
+      <ToggleStyle />
+      <Slot />
     </View>
+  )
+}
+
+export default function HomeLayout() {
+
+  return (
+    <TodosProvider>
+        <SlotWrapper />
+    </TodosProvider>
   );
 }

@@ -1,4 +1,4 @@
-import { Text, Image, StyleSheet, View } from 'react-native';
+import { Text, Image, StyleSheet, View, useColorScheme } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts, SourceCodePro_600SemiBold, SourceCodePro_400Regular_Italic } from '@expo-google-fonts/source-code-pro';
 import TypeWriter from 'react-native-typewriter';
@@ -6,10 +6,12 @@ import { ActionButton } from "../components/ActionButton.js";
 import Animated, { FadeIn, BounceIn, FadeOut, useSharedValue, useAnimatedStyle, withSpring, withRepeat, withTiming, interpolate } from 'react-native-reanimated';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
-import { colors } from '../constants/colors.js';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+import { TodosContext } from '../context/TodosContext.js';
 
 export default function Page() {
+
+  const { colors } = useContext(TodosContext)
 
   const floating = useSharedValue(0);
   useEffect(() => {
@@ -34,6 +36,43 @@ export default function Page() {
   const goToHome = () => {
     router.push("/home");
   }
+
+  const styles = StyleSheet.create({
+    contentContainer: {
+      width: "100%",
+      height: "100%",
+      paddingHorizontal: 20,
+      backgroundColor: colors.bg,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    headingText: {
+      position: "absolute",
+      top: "39%",
+      left: "5%",
+      fontFamily: "SourceCodePro_600SemiBold",
+      fontWeight: "bold",
+      fontSize: 50,
+      color: colors.fg,
+      textAlign: "center"
+    },
+    blobContainer: {
+      width: 300,
+      height: 300,
+      shadowColor: "#FFF",
+      shadowOpacity: 0.5,
+      shadowRadius: 10,
+      shadowColor: colors.purple
+    },
+    typewriterText: {
+      color: colors.fg, 
+      fontSize: 20, 
+      fontFamily: "SourceCodePro_400Regular_Italic", 
+      textAlign: "center", 
+      marginHorizontal: 20,
+      height: 100
+    }
+  })
 
   return (
     <Animated.View style={styles.contentContainer}>
@@ -60,40 +99,3 @@ export default function Page() {
   );
 
 }
-
-const styles = StyleSheet.create({
-  contentContainer: {
-    width: "100%",
-    height: "100%",
-    paddingHorizontal: 20,
-    backgroundColor: colors.bg,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  headingText: {
-    position: "absolute",
-    top: "39%",
-    left: "5%",
-    fontFamily: "SourceCodePro_600SemiBold",
-    fontWeight: "bold",
-    fontSize: 50,
-    color: colors.fg,
-    textAlign: "center"
-  },
-  blobContainer: {
-    width: 300,
-    height: 300,
-    shadowColor: "#FFF",
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    shadowColor: colors.purple
-  },
-  typewriterText: {
-    color: colors.fg, 
-    fontSize: 20, 
-    fontFamily: "SourceCodePro_400Regular_Italic", 
-    textAlign: "center", 
-    marginHorizontal: 20,
-    height: 100
-  }
-})
