@@ -64,7 +64,7 @@ const TodoEntry = ({ todo, delay, onNotePress }) => {
         <TouchableOpacity onPress={() => onNotePress(todo.id)}>
             <Animated.View style={styles.contentContainer} entering={FadeInRight.duration(1000).delay(delay * delays.todoEntryDelay)}>
                 <View style={{ paddingVertical: 5, paddingHorizontal: 7, backgroundColor: todo.color, borderTopRightRadius: 10 }}>
-                    <View style={{flexDirection: "row", alignItems: "center"}}>
+                    <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
                         <Text style={styles.todoTitle}>{todo.title}</Text>
                         <TouchableOpacity style={{ backgroundColor: colors.mg, borderRadius: 5, padding: 5 }} onPress={() => router.push(`/edit/${todo.id}`)}>
                             <AntDesign name="edit" size={25} color={colors.fg} />
