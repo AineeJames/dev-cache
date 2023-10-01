@@ -95,6 +95,31 @@ const TodosProvider = ({ children }) => {
 
     const [isDarkMode, setIsDarkMode] = useState(true);
 
+    useEffect(() => {
+        const loadThemePreference = async () => {
+            try {
+                const colorPreference = await getData("theme");
+                setIsDarkMode(colorPreference === "dark");
+            } catch (error) {
+                console.error('Error loading theme preference:', error);
+            }
+        };
+
+        loadThemePreference();
+    }, []);
+
+    useEffect(() => {
+        const saveThemePreference = async () => {
+            try {
+                await storeData("theme", isDarkMode ? "dark" : "light");
+            } catch (error) {
+                console.error('Error saving theme preference:', error);
+            }
+        };
+
+        saveThemePreference();
+    }, [isDarkMode]);
+
     return (
         <TodosContext.Provider value={{ todos, addNote, removeNote, updateNote, setIsDarkMode, isDarkMode, colors: isDarkMode ? colors.dark : colors.light }}>
             {children}
