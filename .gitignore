@@ -36,3 +36,4 @@ yarn-error.*
 
 # build
 eas.json
+app.json
